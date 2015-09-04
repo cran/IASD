@@ -1,1 +1,7 @@
 exportPattern("^[[:alpha:]]+")
+import(stats4)
+importFrom("grDevices", "dev.off", "dev.print", "pdf")
+importFrom("graphics", "axis", "hist", "legend", "lines", 
+		   "mtext", "par")
+importFrom("stats", "dnorm")
+importFrom("utils", "write.csv", "write.table")

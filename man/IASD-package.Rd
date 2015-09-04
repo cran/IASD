@@ -1,10 +1,11 @@
 \name{IASD-package}
+\alias{IASD-package}
 \docType{package}
 \title{
-Model selection for index of asymmetry distribution
+Model Selection for Index of Asymmetry Distribution
 }
 \description{
-Calculate AIC's and AICc's of unimodal model (one normal distribution) and bimodal model(a mixture of two normal distributions) which fit the distribution of indices of asymmetry (IAS), and plot their density, to help determine IAS distribution is unimodel or bimodal.
+Calculate AIC's and AICc's of unimodal model (one normal distribution) and bimodal model(a mixture of two normal distributions) which fit the distribution of indices of asymmetry (IAS), and plot their density, to help determine IAS distribution is unimodal or bimodal.
 }
 \details{
 \tabular{ll}{
