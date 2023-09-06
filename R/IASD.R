@@ -8,7 +8,7 @@ function(df, dfCols = NA, fixSignApproximation = FALSE,
 		plotSelect = rep(TRUE, 4), showLegend = TRUE, 
 		modelName = c("FA", "DA", "AS", "Skewed AS"), xlab = NA, 
 		ylab = NA, main = NA, freqAxis = FALSE, lineColor = "black", 
-		nsmall = 2, fileType = "TEXT", ...){  
+		nsmall = 2, fileType = "TEXT", generateFiles = TRUE, ...){  
 	# df: data frame
 	# range: range of the distribution graph, 
 	# dHist: division width of histgram
@@ -133,7 +133,7 @@ function(df, dfCols = NA, fixSignApproximation = FALSE,
 			sd = sd, f = f)
 		names(UnimodalSymmetric)[i] = colname
 		if (plotGraph){
-			if (!plotToScreen)
+			if (!plotToScreen && generateFiles)
 				pdf(file = AddPrefix(paste0(colname, ".pdf")))
 			if (is.na(xlab[i]))
 				xlab[i] <- colname
@@ -191,7 +191,7 @@ function(df, dfCols = NA, fixSignApproximation = FALSE,
 				sdStartSymmetric[i] <- sd
 			BiSymFunc <- function(mean = 2, sd = 2)
 					-sum(log(DBiNorm(ias, mean = mean, sd = sd)))			
-			BiSymFit <- mle(BiSymFunc, start = list(mean = meanStartSymmetric[i], 
+			BiSymFit <- stats4::mle(BiSymFunc, start = list(mean = meanStartSymmetric[i], 
 				sd = sdStartSymmetric[i]))						
 			BiSymAIC[i] <- -2*as.numeric(logLik(BiSymFit)) + 2*2
 			BiSymAICC[i] <- -2*as.numeric(logLik(BiSymFit)) + 2*AICC(2,n)			
@@ -287,9 +287,9 @@ function(df, dfCols = NA, fixSignApproximation = FALSE,
 				axis(4)
 				mtext("Number of individuals", side=4, line = 3)
 			}
-			if (plotToScreen)			
+			if (plotToScreen && generateFiles)			
 				dev.print(pdf, file = AddPrefix(paste0(colname, ".pdf")))
-			else
+			else if (generateFiles)
 				dev.off()
 		}
 
@@ -306,12 +306,12 @@ function(df, dfCols = NA, fixSignApproximation = FALSE,
 	print(format(AICc.df, digits = 2, nsmall = nsmall))
 	cat("\n")
 	
-	if (fileType == "CSV"){
+	if (fileType == "CSV" && generateFiles){
 		write.csv(AIC.df, file = AddPrefix("AIC.csv"))
 		write.csv(AICc.df, file = AddPrefix("AICc.csv"))
 	}
 	
-	if (fileType == "TEXT"){
+	if (fileType == "TEXT" && generateFiles){
 		colN <- colnames(AIC.df)[1]
 		colnames(AIC.df)[1] <- paste0("\t", colN)
 		write.table(format(AIC.df, digits = 2, nsmall = nsmall), col.names = T, 
